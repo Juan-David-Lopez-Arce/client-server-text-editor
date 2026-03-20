@@ -1,0 +1,17 @@
+# Build
+*.o
+server
+client
+
+# Debug
+*.dSYM/
+core
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Temp
+*.swp
+*~
