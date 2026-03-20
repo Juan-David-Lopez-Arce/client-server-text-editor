@@ -2,9 +2,14 @@
 
 C | Unix Pipes | Concurrency | Systems Programming
 
-A concurrent, multi-client text editor built in C that allows multiple users to edit a shared document in real time.
+A high-performance concurrent text editor in C that allows multiple clients to edit a shared document in real time. Built from scratch using threads, epoll, and low-level IPC.
 
-Designed to handle concurrent edits safely using threads, synchronization primitives, and efficient inter-process communication via Unix pipes and epoll.
+## Highlights
+
+- Built a multi-client real-time editor in C using epoll and threads
+- Designed a thread-safe shared document model
+- Implemented IPC using Unix pipes
+- Handled concurrent edits without race conditions or deadlocks
 
 ## Overview
 
@@ -21,33 +26,34 @@ The document is internally represented as a linked list of character arrays, ena
 - Supports multiple concurrent clients editing the same document
 - Thread-safe operations using mutex-based synchronization
 - Real-time document updates broadcast to all clients
-- Efficient IPC using Unix pipes
 - Markdown-style editing (headers, lists, formatting, etc.)
 
 ## Why This Project Matters
 
-This project demonstrates core systems programming concepts used in real-world applications such as collaborative tools, distributed systems, and high-performance servers.
+This project explores how real-time collaborative systems (like Google Docs or Notion) can be built at a low level without relying on high-level frameworks.
 
-It focuses on:
-- Safe concurrency in low-level languages (C)
-- Real-time multi-client coordination
-- Efficient inter-process communication
-- Scalable server design using epoll
+It demonstrates how to:
+- Handle concurrent edits safely in C
+- Design scalable event-driven servers using epoll
+- Build efficient shared data structures under contention
 
 ## Architecture
 
 The system follows a client–server model with concurrency at the server level.
 
-Components:
-Clients  →  Server  →  Shared Document (Linked List)
+## Components
+- Clients → send edit commands
+- Server → processes and synchronizes edits
+- Shared Document → stored as a linked structure
 
-Each client communicates with the server via Unix pipes
+Each client communicates with the server via Unix pipes for command delivery and updates.
 
-The server manages:
+## Consistency Model
 
-- Client connections (threads)
-- Document updates (worker threads)
-- Periodic broadcasting (timer thread)
+- The server acts as the single source of truth
+- All edits are serialized through a central update queue
+- Mutex locks ensure atomic modifications to the document
+- Clients receive periodic snapshots to stay in sync
 
 ## Project Structure
 ```bash
@@ -82,15 +88,6 @@ markdown.c
 - Implements all document manipulation logic
 - Uses a linked list of character arrays for memory efficiency
 
-## Concurrency Design
-
-- Each client is handled by a dedicated thread
-- Shared document access is protected using synchronization mechanisms (e.g., mutexes)
-
-Prevents:
-- Race conditions
-- Inconsistent document states
-- Ensures safe concurrent editing
 
 ## Inter-Process Communication
 
@@ -111,11 +108,17 @@ If you are using macOS or Windows, you can run the project via:
 ## How to Run
 
 1. Compile
+```bash
 make
-2. Start the Server
+```
+3. Start the Server
+```bash
 ./server
-3. Launch Clients (in separate terminals)
+```
+5. Launch Clients (in separate terminals)
+```bash
 ./client
+```
 
 You can start multiple clients to simulate concurrent editing.
 
