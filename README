@@ -1,10 +1,12 @@
-Concurrent Client–Server Text Editor
+## Concurrent Client–Server Text Editor
 
 C | Unix Pipes | Concurrency | Systems Programming
 
-A high-performance concurrent text editor implemented in C using a client–server architecture. The system supports multiple simultaneous clients editing a shared document, with synchronization mechanisms to ensure consistency and prevent race conditions.
+A concurrent, multi-client text editor built in C that allows multiple users to edit a shared document in real time.
 
-Overview
+Designed to handle concurrent edits safely using threads, synchronization primitives, and efficient inter-process communication via Unix pipes and epoll.
+
+## Overview
 
 This project implements a multi-client collaborative text editor where:
 - A central server maintains the shared document
@@ -14,19 +16,25 @@ This project implements a multi-client collaborative text editor where:
 
 The document is internally represented as a linked list of character arrays, enabling efficient insertions, deletions, and formatting operations.
 
-Features
+## Features
 
-1. Concurrent multi-client support
-2. Thread-safe editing with synchronization primitives
-3. Periodic document broadcasting to all clients
-4. Inter-process communication via Unix pipes
-5. Rich text editing operations, including:
-    - Insert / delete text
-    - Add newlines
-    - Markdown-style formatting (headers, italics, horizontal rule, code, link, blockquote)
-    - Ordered lists with automatic re-indexing
+- Supports multiple concurrent clients editing the same document
+- Thread-safe operations using mutex-based synchronization
+- Real-time document updates broadcast to all clients
+- Efficient IPC using Unix pipes
+- Markdown-style editing (headers, lists, formatting, etc.)
 
-Architecture
+## Why This Project Matters
+
+This project demonstrates core systems programming concepts used in real-world applications such as collaborative tools, distributed systems, and high-performance servers.
+
+It focuses on:
+- Safe concurrency in low-level languages (C)
+- Real-time multi-client coordination
+- Efficient inter-process communication
+- Scalable server design using epoll
+
+## Architecture
 
 The system follows a client–server model with concurrency at the server level.
 
@@ -43,17 +51,17 @@ The server manages:
 - Document updates (worker threads)
 - Periodic broadcasting (timer thread)
 
-Project Structure
+## Project Structure
 source/
 ├── client.c        # Client-side logic and command interface
 ├── server.c        # Multi-threaded server and coordination logic
 ├── markdown.c      # Document editing operations (linked list)
 libs/               # Header files for each source code file
-├── client.c        
-├── server.c        
-├── markdown.c
+├── client.h        
+├── server.h        
+├── markdown.h
 
-File Descriptions
+## File Descriptions
 
 client.c
 
@@ -75,19 +83,18 @@ markdown.c
 - Implements all document manipulation logic
 - Uses a linked list of character arrays for memory efficiency
 
-Concurrency Design
+## Concurrency Design
 
 Each client is handled by a dedicated thread
 
 Shared document access is protected using synchronization mechanisms (e.g., mutexes)
 
 Prevents:
-
 - Race conditions
 - Inconsistent document states
 - Ensures safe concurrent editing
 
-Inter-Process Communication
+## Inter-Process Communication
 
 Communication between clients and server is implemented using Unix pipes
 
@@ -96,7 +103,7 @@ Enables:
 - Lightweight IPC between processes
 - Efficient message passing for commands and updates
 
-Platform Compatibility
+## Platform Compatibility
 
 This project is designed for Linux environments only.
 
@@ -107,7 +114,7 @@ If you are using macOS or Windows, you can run the project via:
 - Docker
 - A Linux virtual machine
 
-How to Run
+## How to Run
 
 1. Compile
 make
@@ -126,10 +133,17 @@ Example Workflow
 4. Server processes edits safely
 5. Updated document is broadcast to all clients periodically
 
-Key Learnings
+## Key Learnings
 
 - Designing thread-safe systems in C
 - Managing concurrency and synchronization
 - Implementing inter-process communication with Unix pipes
 - Building efficient data structures for dynamic text editing
 - Coordinating multi-threaded server architectures
+
+## Challenges
+
+- Designing a thread-safe editing system without introducing deadlocks
+- Synchronizing concurrent edits across multiple clients
+- Efficiently managing IPC without blocking performance
+- Structuring a dynamic document using linked lists for fast updates
