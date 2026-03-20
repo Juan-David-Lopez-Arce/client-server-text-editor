@@ -52,6 +52,7 @@ The server manages:
 - Periodic broadcasting (timer thread)
 
 ## Project Structure
+
 source/
 ├── client.c        # Client-side logic and command interface
 ├── server.c        # Multi-threaded server and coordination logic
@@ -85,9 +86,8 @@ markdown.c
 
 ## Concurrency Design
 
-Each client is handled by a dedicated thread
-
-Shared document access is protected using synchronization mechanisms (e.g., mutexes)
+- Each client is handled by a dedicated thread
+- Shared document access is protected using synchronization mechanisms (e.g., mutexes)
 
 Prevents:
 - Race conditions
@@ -96,18 +96,14 @@ Prevents:
 
 ## Inter-Process Communication
 
-Communication between clients and server is implemented using Unix pipes
-
-Enables:
+Communication between clients and server is implemented using Unix pipes, which enables:
 
 - Lightweight IPC between processes
 - Efficient message passing for commands and updates
 
 ## Platform Compatibility
 
-This project is designed for Linux environments only.
-
-It leverages Linux-specific system calls such as `epoll` for high-performance I/O, and therefore will not compile or run natively on macOS or Windows.
+This project is designed for Linux environments only. It leverages Linux-specific system calls such as `epoll` for high-performance I/O, and therefore will not compile or run natively on macOS or Windows.
 
 If you are using macOS or Windows, you can run the project via:
 - WSL (Windows Subsystem for Linux)
