@@ -40,8 +40,6 @@ The system follows a client–server model with concurrency at the server level.
 
 Components:
 Clients  →  Server  →  Shared Document (Linked List)
-             ↓
-     Broadcast Updates
 
 Each client communicates with the server via Unix pipes
 
