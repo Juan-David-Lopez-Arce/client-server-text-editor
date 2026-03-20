@@ -52,7 +52,7 @@ The server manages:
 - Periodic broadcasting (timer thread)
 
 ## Project Structure
-
+```bash
 source/
 ├── client.c        # Client-side logic and command interface
 ├── server.c        # Multi-threaded server and coordination logic
@@ -61,7 +61,7 @@ libs/               # Header files for each source code file
 ├── client.h        
 ├── server.h        
 ├── markdown.h
-
+```
 ## File Descriptions
 
 client.c
